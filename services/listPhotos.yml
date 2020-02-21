@@ -1,0 +1,3 @@
+handler: services/listPhotos.handler
+name: ${self:service}-listPhotos${self:custom.stage.suffix}
+memorySize: 1024
