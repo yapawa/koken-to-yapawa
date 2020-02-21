@@ -1,0 +1,14 @@
+- Effect: "Allow"
+  Action:
+    - "s3:*"
+  Resource:
+    - Fn::GetAtt: [S3BucketMigration,Arn]
+    - Fn::Join:
+      - "/"
+      - - Fn::GetAtt: [S3BucketMigration,Arn]
+        - "*"
+- Effect: "Allow"
+  Action:
+    - "s3:PutObject"
+  Resource:
+    - arn:aws:s3:::*/*

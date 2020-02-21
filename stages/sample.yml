@@ -1,6 +1,7 @@
 profile: MyAWSProfile
 region: Region where to run
 suffix: ''
+migrationBucketName: Bucket name holding temp data
 lambda:
   memorySize: 512
   timeout: 30

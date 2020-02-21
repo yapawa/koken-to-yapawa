@@ -1,0 +1,9 @@
+Type: AWS::S3::Bucket
+Properties:
+  BucketName: ${self:custom.stage.migrationBucketName}
+  AccessControl: Private
+Outputs:
+  migrationBucketName:
+    Description: "Migration Bucket Name"
+    Value:
+      Ref: S3BucketMigration

@@ -1,0 +1,2 @@
+handler: services/getTree.handler
+name: ${self:service}-getTree${self:custom.stage.suffix}
