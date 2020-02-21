@@ -1,0 +1,2 @@
+handler: services/importPhotos.handler
+name: ${self:service}-importPhotos${self:custom.stage.suffix}
