@@ -12,3 +12,13 @@
     - "s3:PutObject"
   Resource:
     - arn:aws:s3:::*/*
+- Effect: "Allow"
+  Action:
+    - "dynamodb:BatchGetItem"
+    - "dynamodb:BatchWriteItem"
+    - "dynamodb:PutItem"
+    - "dynamodb:GetItem"
+    - "dynamodb:Scan"
+    - "dynamodb:Query"
+    - "dynamodb:UpdateItem"
+  Resource: "*"

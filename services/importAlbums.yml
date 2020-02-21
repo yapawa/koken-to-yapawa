@@ -1,0 +1,2 @@
+handler: services/importAlbums.handler
+name: ${self:service}-importAlbums${self:custom.stage.suffix}
