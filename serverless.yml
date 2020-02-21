@@ -11,8 +11,11 @@ custom:
     includeModules:
       forceExclude:
         - aws-sdk
-
+  remover:
+     buckets:
+       - ${self:custom.stage.migrationBucketName}
 plugins:
+  - serverless-s3-remover
   - serverless-deployment-bucket
   - serverless-step-functions
   - serverless-pseudo-parameters
