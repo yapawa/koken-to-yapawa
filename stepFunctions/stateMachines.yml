@@ -28,9 +28,10 @@ koken2yapawa:
           bucket.$: $.bucket
           domain.$: $.domain
           photoTable.$: $.photoTable
+          albumTable.$: $.albumTable
           encryptionKey.$: $.encryptionKey
         MaxConcurrency: 5
-        End: true
+        Next: listCollections-All
 
         Iterator:
           StartAt: listPhotos
@@ -58,8 +59,8 @@ koken2yapawa:
                 photo.$: $$.Map.Item.Value
                 albumId.$: $.albumId
                 bucket.$: $.bucket
-              MaxConcurrency: 5
-              End: true
+              MaxConcurrency: 20
+              Next: setAlbumCovers
 
               Iterator:
                 StartAt: photoToS3
@@ -69,3 +70,39 @@ koken2yapawa:
                     Resource:
                       Fn::GetAtt: [PhotoToS3,Arn]
                     End: true
+            setAlbumCovers:
+              Type: Task
+              Resource:
+                Fn::GetAtt: [SetCovers,Arn]
+              ResultPath: null
+              End: true
+
+      listCollections-All:
+        Type: Map
+        ItemsPath: $.results.collections
+        ResultPath: null
+        Parameters:
+          albumId.$: $$.Map.Item.Value
+          bucket.$: $.bucket
+          domain.$: $.domain
+          encryptionKey.$: $.encryptionKey
+          albumTable.$: $.albumTable
+          photoTable.$: $.photoTable
+          MaxConcurrency: 5
+        End: true
+
+        Iterator:
+          StartAt: getCollection
+          States:
+            getCollection:
+              Type: Task
+              Resource:
+                Fn::GetAtt: [ListPhotos,Arn]
+              ResultPath: "$.results"
+              Next: setCollectionCovers
+            setCollectionCovers:
+              Type: Task
+              Resource:
+                Fn::GetAtt: [SetCovers,Arn]
+              ResultPath: null
+              End: true
