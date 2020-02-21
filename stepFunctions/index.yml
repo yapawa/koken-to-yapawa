@@ -1,0 +1,2 @@
+stateMachines: ${file(stepFunctions/stateMachines.yml)}
+validate: true

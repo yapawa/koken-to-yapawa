@@ -14,6 +14,7 @@ custom:
 
 plugins:
   - serverless-deployment-bucket
+  - serverless-step-functions
   - serverless-pseudo-parameters
   - serverless-webpack
 
@@ -40,3 +41,4 @@ resources:
   Resources: ${file(lib/config.js):resources}
   Outputs: ${file(lib/config.js):outputs}
 
+stepFunctions: ${file(stepFunctions/index.yml)}

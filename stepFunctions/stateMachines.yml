@@ -1,0 +1,71 @@
+koken2yapawa:
+  name: KokenToYapawa
+  definition:
+    Comment: "Import albums and photos from a Koken Site to Yapawa"
+    StartAt: getTree
+    States:
+
+      getTree:
+        Type: Task
+        Resource:
+          Fn::GetAtt: [GetTree,Arn]
+        ResultPath: "$.results"
+        Next: importAlbums
+
+      importAlbums:
+        Type: Task
+        Resource:
+          Fn::GetAtt: [ImportAlbums,Arn]
+        ResultPath: null
+        Next: listImages-All
+
+      listImages-All:
+        Type: Map
+        ItemsPath: $.results.albums
+        ResultPath: null
+        Parameters:
+          albumId.$: $$.Map.Item.Value
+          bucket.$: $.bucket
+          domain.$: $.domain
+          photoTable.$: $.photoTable
+          encryptionKey.$: $.encryptionKey
+        MaxConcurrency: 5
+        End: true
+
+        Iterator:
+          StartAt: listPhotos
+          States:
+
+            listPhotos:
+              Type: Task
+              Resource:
+                Fn::GetAtt: [ListPhotos,Arn]
+              ResultPath: "$.results"
+              Next: importPhotos
+
+            importPhotos:
+              Type: Task
+              ResultPath: null
+              Resource:
+                Fn::GetAtt: [ImportPhotos,Arn]
+              Next: photoToS3-All
+
+            photoToS3-All:
+              Type: Map
+              ItemsPath: $.results
+              ResultPath: null
+              Parameters:
+                photo.$: $$.Map.Item.Value
+                albumId.$: $.albumId
+                bucket.$: $.bucket
+              MaxConcurrency: 5
+              End: true
+
+              Iterator:
+                StartAt: photoToS3
+                States:
+                  photoToS3:
+                    Type: Task
+                    Resource:
+                      Fn::GetAtt: [PhotoToS3,Arn]
+                    End: true
