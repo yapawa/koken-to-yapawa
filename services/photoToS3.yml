@@ -1,0 +1,2 @@
+handler: services/photoToS3.handler
+name: ${self:service}-photoToS3${self:custom.stage.suffix}
