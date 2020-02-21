@@ -1,0 +1,3 @@
+handler: services/setCovers.handler
+name: ${self:service}-setCovers${self:custom.stage.suffix}
+memorySize: 1024
