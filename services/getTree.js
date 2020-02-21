@@ -49,7 +49,7 @@ module.exports.handler = async (event) => {
       })
       return {
         collections,
-        albums: albums
+        albums
       }
     })
   })
