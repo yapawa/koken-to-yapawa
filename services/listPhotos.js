@@ -24,8 +24,10 @@ module.exports.handler = async (event) => {
   let position = 0
   const albumDetails = {
     id: albumId,
-    covers: response.album.covers.map(item => item.id.toString()),
-    content: response.content.map(item => {
+    covers: response.album.covers.map(item => item.id.toString())
+  }
+  if (response.content) {
+    albumDetails.content = response.content.map(item => {
       position++
       const visibility = (item.visibility.raw === 'public') ? 'public' : (item.visibility.raw === 'private') ? 'private' : 'protected'
       const name = item.title ? item.title : item.filename
@@ -64,14 +66,18 @@ module.exports.handler = async (event) => {
   }
   return S3.putObject(params).promise()
     .then(res => {
-      return albumDetails.content.map(photo => {
-        return {
-          id: photo.id,
-          albumId: photo.albumId,
-          key: photo.file.key,
-          contentType: photo.contentType,
-          source: photo.source
-        }
-      })
+      if (albumDetails.content) {
+        return albumDetails.content.map(photo => {
+          return {
+            id: photo.id,
+            albumId: photo.albumId,
+            key: photo.file.key,
+            contentType: photo.contentType,
+            source: photo.source
+          }
+        })
+      } else {
+        return null
+      }
     })
 }
