@@ -10,14 +10,26 @@ log.options.meta.env = process.env
 
 module.exports.handler = async (event) => {
   const params = {
-    Bucket: event.bucket,
-    Key: `public/${event.photo.key}`,
-    ContentType: event.photo.contentType
+    Bucket: process.env.migrationBucketName,
+    Key: `${event.domain}/images/${event.albumId}.json`
   }
+  const albumData = await S3.getObject(params).promise().then(res => {
+    return JSON.parse(res.Body.toString())
+  })
 
-  const stream = got.stream(event.photo.source)
-  const result = await uploadStream(stream, params) // eslint-disable-line no-unused-vars
-  return params.Key
+  const uploads = []
+  albumData.content.forEach(photo => {
+    const params = {
+      Bucket: event.bucket,
+      Key: `public/${photo.file.key}`,
+      ContentType: photo.contentType
+    }
+    const stream = got.stream(photo.source)
+    uploads.push(uploadStream(stream, params))
+  })
+  return Promise.all(uploads).then(result => {
+    console.log(result.length)
+  })
 }
 
 const uploadStream = async (stream, params) => {

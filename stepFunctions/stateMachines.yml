@@ -30,7 +30,7 @@ koken2yapawa:
           photoTable.$: $.photoTable
           albumTable.$: $.albumTable
           encryptionKey.$: $.encryptionKey
-        MaxConcurrency: 5
+        MaxConcurrency: 10
         Next: listCollections-All
 
         Iterator:
@@ -49,27 +49,8 @@ koken2yapawa:
               ResultPath: null
               Resource:
                 Fn::GetAtt: [ImportPhotos,Arn]
-              Next: photoToS3-All
-
-            photoToS3-All:
-              Type: Map
-              ItemsPath: $.results
-              ResultPath: null
-              Parameters:
-                photo.$: $$.Map.Item.Value
-                albumId.$: $.albumId
-                bucket.$: $.bucket
-              MaxConcurrency: 20
               Next: setAlbumCovers
 
-              Iterator:
-                StartAt: photoToS3
-                States:
-                  photoToS3:
-                    Type: Task
-                    Resource:
-                      Fn::GetAtt: [PhotoToS3,Arn]
-                    End: true
             setAlbumCovers:
               Type: Task
               Resource:
@@ -85,11 +66,10 @@ koken2yapawa:
           albumId.$: $$.Map.Item.Value
           bucket.$: $.bucket
           domain.$: $.domain
-          encryptionKey.$: $.encryptionKey
-          albumTable.$: $.albumTable
           photoTable.$: $.photoTable
-          MaxConcurrency: 5
-        End: true
+          albumTable.$: $.albumTable
+          encryptionKey.$: $.encryptionKey
+        Next: photoToS3-All
 
         Iterator:
           StartAt: getCollection
@@ -105,4 +85,24 @@ koken2yapawa:
               Resource:
                 Fn::GetAtt: [SetCovers,Arn]
               ResultPath: null
+              End: true
+
+      photoToS3-All:
+        Type: Map
+        ItemsPath: $.results.albums
+        ResultPath: null
+        Parameters:
+          albumId.$: $$.Map.Item.Value
+          bucket.$: $.bucket
+          domain.$: $.domain
+        MaxConcurrency: 10
+        End: true
+      
+        Iterator:
+          StartAt: photoToS3
+          States:
+            photoToS3:
+              Type: Task
+              Resource:
+                Fn::GetAtt: [PhotoToS3,Arn]
               End: true

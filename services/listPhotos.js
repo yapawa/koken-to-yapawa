@@ -31,6 +31,12 @@ module.exports.handler = async (event) => {
       position++
       const visibility = (item.visibility.raw === 'public') ? 'public' : (item.visibility.raw === 'private') ? 'private' : 'protected'
       const name = item.title ? item.title : item.filename
+      const metadata = {}
+      metadata.exif_fields = item.exif_fields || null
+      metadata.exif = item.exif || null
+      metadata.iptc_fields = item.iptc_fields || null
+      metadata.iptc = item.iptc || null
+      metadata.geolocation = item.geolocation || null
       return {
         id: item.id.toString(),
         albumId: albumId.toString(),
@@ -53,7 +59,8 @@ module.exports.handler = async (event) => {
         capturedAt: epoch2AwsDate(item.captured_on.timestamp),
         publishedAt: epoch2AwsDate(item.published_on.timestamp),
         updatedAt: epoch2AwsDate(item.modified_on.timestamp),
-        source: item.original.url
+        source: item.original.url,
+        metadata
       }
     })
   }
