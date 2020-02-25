@@ -95,7 +95,7 @@ koken2yapawa:
           albumId.$: $$.Map.Item.Value
           bucket.$: $.bucket
           domain.$: $.domain
-        MaxConcurrency: 10
+        MaxConcurrency: 5
         End: true
       
         Iterator:
