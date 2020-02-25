@@ -31,6 +31,8 @@ module.exports.handler = async (event) => {
     const items = photosList.content.slice(start, end)
     const putRequest = items.map(item => {
       item.id = item.id.toString()
+      delete item.source
+      delete item.metadata
       return {
         PutRequest: {
           Item: item
