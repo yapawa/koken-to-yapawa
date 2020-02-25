@@ -1,0 +1,2 @@
+handler: services/setCounters.handler
+name: ${self:service}-setCounters${self:custom.stage.suffix}

@@ -56,6 +56,12 @@ koken2yapawa:
               Resource:
                 Fn::GetAtt: [SetCovers,Arn]
               ResultPath: null
+              Next: setAlbumCounters
+            setAlbumCounters:
+              Type: Task
+              Resource:
+                Fn::GetAtt: [SetCounters,Arn]
+              ResultPath: null
               End: true
 
       listCollections-All:
@@ -84,6 +90,12 @@ koken2yapawa:
               Type: Task
               Resource:
                 Fn::GetAtt: [SetCovers,Arn]
+              ResultPath: null
+              Next: setCollectionCounters
+            setCollectionCounters:
+              Type: Task
+              Resource:
+                Fn::GetAtt: [SetCounters,Arn]
               ResultPath: null
               End: true
 
