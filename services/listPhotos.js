@@ -18,7 +18,7 @@ module.exports.handler = async (event) => {
   log.info('event', event)
   const encryptionKey = event.encryptionKey
   const albumId = event.albumId
-  const albumEndpoint = `https://${event.domain}/api.php?/albums/${albumId}/content/token:${encryptionKey}`
+  const albumEndpoint = `https://${event.domain}/api.php?/albums/${albumId}/content/token:${encryptionKey}/limit:1000`
 
   const response = await got(albumEndpoint).json()
   let position = 0
