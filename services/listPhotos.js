@@ -76,11 +76,7 @@ module.exports.handler = async (event) => {
       if (albumDetails.content) {
         return albumDetails.content.map(photo => {
           return {
-            id: photo.id,
-            albumId: photo.albumId,
-            key: photo.file.key,
-            contentType: photo.contentType,
-            source: photo.source
+            id: photo.id
           }
         })
       } else {

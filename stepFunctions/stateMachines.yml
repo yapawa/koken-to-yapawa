@@ -41,7 +41,7 @@ koken2yapawa:
               Type: Task
               Resource:
                 Fn::GetAtt: [ListPhotos,Arn]
-              ResultPath: "$.results"
+              ResultPath: null
               Next: importPhotos
 
             importPhotos:
