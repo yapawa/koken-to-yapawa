@@ -35,7 +35,7 @@ cat <<EOF > events/site.json
   "photoTable": "DynamodB Photo table Name",
   "encryptionKey": "Koken encryption key",
   "bucket": "Yapawa S3 bucket name storing originals",
-  "region": "AWS region"
+  "owner": "Yapawa username"
 }
 EOF
 ```

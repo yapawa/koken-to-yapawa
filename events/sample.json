@@ -3,5 +3,6 @@
   "albumTable": "",
   "photoTable": "",
   "encryptionKey": "",
-  "bucket": ""
+  "bucket": "",
+  "owner": ""
 }

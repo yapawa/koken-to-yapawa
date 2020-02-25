@@ -19,10 +19,22 @@ module.exports.handler = async (event) => {
 
   const uploads = []
   albumData.content.forEach(photo => {
+    const metadata = {
+      owner: event.owner,
+      filename: photo.name,
+      modifiedAt: photo.updatedAt.toString(),
+      uploadedAt: Date.now().toString(),
+      uploadBatch: 'kokenExport',
+      albumId: photo.albumId,
+      photoId: photo.id,
+      width: photo.width.toString(),
+      height: photo.height.toString()
+    }
     const params = {
       Bucket: event.bucket,
       Key: `public/${photo.file.key}`,
-      ContentType: photo.contentType
+      ContentType: photo.contentType,
+      Metadata: metadata
     }
     const stream = got.stream(photo.source)
     uploads.push(uploadStream(stream, params))
