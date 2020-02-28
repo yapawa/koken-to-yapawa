@@ -50,7 +50,7 @@ module.exports.handler = async (event) => {
         height: item.height,
         size: parseInt(item.filesize),
         name: name,
-        slug: item.slug,
+        slug: item.slug.toLowerCase(),
         visibility: visibility,
         status: 'published',
         createdAt: epoch2AwsDate(item.uploaded_on.timestamp),

@@ -34,7 +34,7 @@ module.exports.handler = async (event) => {
           width: coverImage.width,
           height: coverImage.height,
           updatedAt: coverImage.updatedAt,
-          slug: coverImage.slug
+          slug: coverImage.slug.toLowerCase()
         })
       } else {
         const coverImage = await getImageInfo(event.photoTable, coverId)
@@ -86,7 +86,7 @@ const getImageInfo = async (table, id) => {
       width: imageInfo.Item.width,
       height: imageInfo.Item.height,
       updatedAt: imageInfo.Item.updatedAt,
-      slug: imageInfo.Item.slug
+      slug: imageInfo.Item.slug.toLowerCase()
     }
   }
   return null

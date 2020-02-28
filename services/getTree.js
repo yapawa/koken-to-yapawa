@@ -65,7 +65,7 @@ const enhanceAlbum = async (domain, album) => {
   const albumEndpoint = `https://${domain}/api.php?/albums/${album.id}`
   return got(albumEndpoint).json()
     .then(albumMeta => {
-      album.slug = albumMeta.slug
+      album.slug = albumMeta.slug.toLowerCase()
       album.description = albumMeta.description.replace(/<br\s*[/]?>/gi, '\n')
       album.summary = albumMeta.summary.replace(/<br\s*[/]?>/gi, '\n')
       return album
@@ -112,7 +112,7 @@ const flatten = (level, parentId = 'root') => {
       parentId: parentId,
       type: type,
       position: position,
-      slug: albumData.slug,
+      slug: albumData.slug.toLowerCase(),
       description: albumData.description,
       summary: albumData.summary,
       visibility: visibility,
