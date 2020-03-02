@@ -112,7 +112,7 @@ const flatten = (level, parentId = 'root') => {
       parentId: parentId,
       type: type,
       position: position,
-      slug: albumData.slug.toLowerCase(),
+      slug: albumData.slug,
       description: albumData.description,
       summary: albumData.summary,
       visibility: visibility,
