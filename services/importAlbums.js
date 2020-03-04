@@ -19,6 +19,8 @@ module.exports.handler = async (event) => {
   const tableName = event.albumTable
   const data = await S3.getObject(params).promise()
   const yapawaTree = JSON.parse(data.Body.toString('utf-8'))
+  const contentCountTotal = yapawaTree.filter(item => item.parentId === 'root').length
+  const contentCountPublic = yapawaTree.filter(item => item.parentId === 'root' && item.status === 'published' && item.visibility === 'public').length
   const root = {
     id: 'root',
     name: 'Albums',
@@ -35,8 +37,8 @@ module.exports.handler = async (event) => {
     updatedAt: '1995-01-01T00:00:00.000Z',
     orderBy: 'position',
     orderDirection: 'asc',
-    contentCountTotal: 0,
-    contentCountPublic: 0
+    contentCountTotal: contentCountTotal,
+    contentCountPublic: contentCountPublic
   }
   yapawaTree.unshift(root)
 
