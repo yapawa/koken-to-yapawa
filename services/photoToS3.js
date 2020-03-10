@@ -23,7 +23,7 @@ module.exports.handler = async (event) => {
       owner: event.owner,
       filename: photo.name,
       modifiedAt: photo.updatedAt.toString(),
-      uploadedAt: Date.now().toString(),
+      uploadedAt: new Date().toISOString(),
       uploadBatch: 'kokenExport',
       albumId: photo.albumId,
       photoId: photo.id,
