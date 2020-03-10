@@ -107,6 +107,7 @@ koken2yapawa:
           albumId.$: $$.Map.Item.Value
           bucket.$: $.bucket
           domain.$: $.domain
+          owner.$: $.owner
         MaxConcurrency: 5
         End: true
       
