@@ -65,7 +65,7 @@ const enhanceAlbum = async (domain, album) => {
   const albumEndpoint = `https://${domain}/api.php?/albums/${album.id}`
   return got(albumEndpoint).json()
     .then(albumMeta => {
-      album.slug = albumMeta.slug.toLowerCase()
+      album.slug = albumMeta.slug.toString().toLowerCase()
       album.description = albumMeta.description.replace(/<br\s*[/]?>/gi, '\n')
       album.summary = albumMeta.summary.replace(/<br\s*[/]?>/gi, '\n')
       return album
