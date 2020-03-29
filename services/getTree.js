@@ -108,7 +108,7 @@ const flatten = (level, parentId = 'root') => {
 
     const yapawaAlbum = {
       id: album.id,
-      name: album.title,
+      name: album.title ? album.title : 'Undefined',
       parentId: parentId,
       type: type,
       position: position,
