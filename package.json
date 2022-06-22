@@ -36,7 +36,7 @@
     "webpack-node-externals": "^1.7.2"
   },
   "dependencies": {
-    "got": "^10.7.0",
+    "got": "^11.8.5",
     "lambda-log": "^2.3.1"
   }
 }
